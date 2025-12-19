@@ -58,7 +58,6 @@ namespace MyToDo.ViewModels
                 MemoDtos.Add(new() { Title = "备忘"+i, Content = "我的密码", Status = 0 });
             }
         }
-
         private void CreateTaskBars()
         {
             taskBars.Add(new TaskBar() { Icon = "ClockFast", Title = "汇总", Content = "1", Color = "#FF0CA0FF", Target = "" });
