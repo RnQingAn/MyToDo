@@ -13,14 +13,10 @@ namespace MyToDo.API.Content
         
         private static readonly string _dbFileName = "ToDo.db";
 
-
-        
         public static readonly string _dbPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "SQLite",
             _dbFileName);
-        private static readonly string _connectionString =
-            $"Data Source={_dbPath};Cache=Shared";
         private static ISqlSugarClient _db;
 
         public static ISqlSugarClient Db
@@ -50,16 +46,12 @@ namespace MyToDo.API.Content
         {
             try
             {
-                // 创建数据库文件（SQLite会在连接时自动创建，但我们需要确保表结构存在）
-                // 注意：如果文件不存在，SqlSugar在第一次操作时会自动创建数据库文件，但我们需要创建表
-                // 这里可以调用CodeFirst.InitTables来创建表
-
                 // 检查表是否存在
                 var tableExists1 = Db.DbMaintenance.IsAnyTable(nameof(ToDo));
                 var tableExists2 = Db.DbMaintenance.IsAnyTable(nameof(Memo));
                 var tableExists3 = Db.DbMaintenance.IsAnyTable(nameof(User));
 
-                if (!tableExists1) Db.CodeFirst.InitTables(typeof(ToDo)); // 请替换为你的实体类
+                if (!tableExists1) Db.CodeFirst.InitTables(typeof(ToDo)); 
                 if (!tableExists2) Db.CodeFirst.InitTables(typeof(Memo));
                 if (!tableExists3) Db.CodeFirst.InitTables(typeof(User));
                 
@@ -72,20 +64,6 @@ namespace MyToDo.API.Content
 
         // 提供一个属性让外部可以获取当前使用的数据库路径
         public static string DatabasePath => _dbPath;
-        //static DbContent()
-        //{
-        //    // 静态构造函数中输出调试信息
-        //    Console.WriteLine($"=== 数据库路径调试信息 ===");
-        //    Console.WriteLine($"BaseDirectory: {AppDomain.CurrentDomain.BaseDirectory}");
-        //    Console.WriteLine($"数据库文件完整路径: {_dbPath}");
-        //    Console.WriteLine($"文件是否存在: {File.Exists(_dbPath)}");
-
-        //    if (!File.Exists(_dbPath))
-        //    {
-        //        Console.WriteLine($"警告：未找到数据库文件！");
-        //        // 可以在这里尝试创建初始数据库
-        //        //CreateInitialDatabase();
-        //    }
-        //}
+        
     }
 }

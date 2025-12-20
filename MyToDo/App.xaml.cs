@@ -47,9 +47,9 @@ namespace MyToDo
             {
                 MessageBox.Show($"初始化数据库失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            containerRegistry.Register(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-            
-
+            containerRegistry.Register(typeof(IBaseService<>), typeof(BaseService<>));
             containerRegistry.Register<IToDoRepository, ToDoRepository>();
             containerRegistry.Register<IToDoService, ToDoService>();
         }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MyToDo.API.Repositories
 {
-    public interface IToDoRepository :IBaseRepository<ToDo>
+    public interface IToDoRepository : IBaseRepository<ToDo>
     {
         /// <summary>
         /// 异步插入单个实体
         /// </summary>
-        public Task<ToDo> InsertAsync(ToDo entity);
+        //public Task<ToDo> InsertAsync(ToDo entity);
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyToDo.API.Service
 {
-    public interface IToDoService
+    public interface IToDoService:IBaseService<ToDo>
     {
-        public Task<ToDo> InsertAsync(ToDo entity);
+        //public Task<ToDo> InsertAsync(ToDo entity);
     }
 }

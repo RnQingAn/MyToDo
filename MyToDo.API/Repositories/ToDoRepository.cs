@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace MyToDo.API.Repositories
 {
-    public class ToDoRepository :IToDoRepository
+    public class ToDoRepository :BaseRepository<ToDo>,IToDoRepository
     {
-        private readonly ISqlSugarClient _db;
-
-        // 正确：只依赖数据库上下文
-        public ToDoRepository(ISqlSugarClient db)
+        // 构造函数：调用基类构造函数
+        public ToDoRepository(ISqlSugarClient db) : base(db)
         {
-            _db= db;
         }
         public async Task<ToDo> InsertAsync(ToDo entity)
         {
