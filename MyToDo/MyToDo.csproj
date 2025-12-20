@@ -24,4 +24,8 @@
     <PackageReference Include="Prism.DryIoc" Version="9.0.537" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyToDo.API\MyToDo.API.csproj" />
+  </ItemGroup>
+
 </Project>

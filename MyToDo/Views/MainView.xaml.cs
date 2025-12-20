@@ -1,4 +1,8 @@
 ﻿
+using Dm.util;
+using MyToDo.API.Entity;
+using MyToDo.API.Service;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +15,7 @@ namespace MyToDo.Views
     /// </summary>
     public partial class MainView : Window
     {
+        
         public MainView()
         {
             InitializeComponent();
@@ -47,6 +52,11 @@ namespace MyToDo.Views
                     WindowState = WindowState.Maximized;
                 else WindowState = WindowState.Normal;
             };
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

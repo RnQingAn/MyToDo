@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34330.188
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11312.210 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo", "MyToDo\MyToDo.csproj", "{88A23E0B-0713-423D-ABB1-FC2950044BF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo.API", "MyToDo.API\MyToDo.API.csproj", "{BCF711CD-2B40-40EF-AA5C-73C6633306CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{88A23E0B-0713-423D-ABB1-FC2950044BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88A23E0B-0713-423D-ABB1-FC2950044BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88A23E0B-0713-423D-ABB1-FC2950044BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Dm.util;
+using MyToDo.API.Entity;
+using MyToDo.API.Service;
 using MyToDo.Common.Models;
 using MyToDo.Extensions;
 using System;
@@ -13,6 +16,8 @@ namespace MyToDo.ViewModels
     
     public partial class MainViewModel:BindableBase
     {
+        private readonly IToDoService _toDoService;
+
         private readonly IRegionManager regionManager;
         private IRegionNavigationJournal journal;
 
@@ -23,7 +28,7 @@ namespace MyToDo.ViewModels
 
         
         //ctor 构造函数 
-        public MainViewModel(IRegionManager regionManager)
+        public MainViewModel(IRegionManager regionManager, IToDoService toDoService)
         {
             CreateMenuBar();
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
@@ -37,9 +42,11 @@ namespace MyToDo.ViewModels
                 if (journal is not null || journal.CanGoForward)
                     journal.GoForward();
             });
+            _toDoService= toDoService;
+            
         }
 
-        private void Navigate(MenuBar bar)
+        private async void Navigate(MenuBar bar)
         {
             if (bar is null || string.IsNullOrWhiteSpace(bar.NameSpace)) return;
 
@@ -47,7 +54,14 @@ namespace MyToDo.ViewModels
                 journal=back.Context.NavigationService.Journal;
             });
 
-            
+            var y = await _toDoService.InsertAsync(new ToDo()
+            {
+                Title = "11",
+                Content = "22",
+                Status = 0,
+                CreateDate = DateTime.Now.toString(),
+                UpdateDate = DateTime.Now.toString(),
+            });
         }
 
         private  ObservableCollection<MenuBar> _menuBars = new ();
