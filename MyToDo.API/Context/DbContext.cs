@@ -10,15 +10,15 @@ namespace MyToDo.API.Content
 {
     public static class DbContext
     {
-        // 方案A：直接指向输出目录中的数据库文件
+        
         private static readonly string _dbFileName = "ToDo.db";
 
 
-        // 修改后的路径：包含SQLite子文件夹
+        
         public static readonly string _dbPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
-            "SQLite",  // 注意：这里添加了子文件夹
-            "ToDo.db");
+            "SQLite",
+            _dbFileName);
         private static readonly string _connectionString =
             $"Data Source={_dbPath};Cache=Shared";
         private static ISqlSugarClient _db;
