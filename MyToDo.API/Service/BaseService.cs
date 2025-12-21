@@ -11,14 +11,11 @@ namespace MyToDo.API.Service
     public class BaseService<T> : IBaseService<T> where T : class, new()
     {
 
-        protected readonly IBaseRepository<T> iBaseRepository;
+        protected  IBaseRepository<T> iBaseRepository;
 
-        public BaseService(IBaseRepository<T> iBaseRepository)
-        {
-            this.iBaseRepository = iBaseRepository;
-        }
+        
 
-        public async Task<T> InsertAsync(T createDto)
+        public  async Task<T> InsertAsync(T createDto)
         {
             return await iBaseRepository.InsertAsync(createDto);
         }

@@ -4,6 +4,7 @@ using MyToDo.API.Entity;
 using MyToDo.API.Service;
 using MyToDo.Common.Models;
 using MyToDo.Extensions;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace MyToDo.ViewModels
     
     public partial class MainViewModel:BindableBase
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IToDoService _toDoService;
 
         private readonly IRegionManager regionManager;
@@ -54,14 +56,15 @@ namespace MyToDo.ViewModels
                 journal=back.Context.NavigationService.Journal;
             });
 
-            var y = await _toDoService.InsertAsync(new ToDo()
+            var y = await _toDoService.InsertAsync(new ToDo
             {
-                Title = "11",
-                Content = "22",
+                Title = "测试",
+                Content = "测试内容",
+                UpdateDate = "11",
                 Status = 0,
-                CreateDate = DateTime.Now.toString(),
-                UpdateDate = DateTime.Now.toString(),
+                CreateDate = DateTime.Now.ToString()
             });
+            Logger.Info("添加数据成功");
         }
 
         private  ObservableCollection<MenuBar> _menuBars = new ();

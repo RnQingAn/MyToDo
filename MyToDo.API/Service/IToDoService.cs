@@ -9,6 +9,6 @@ namespace MyToDo.API.Service
 {
     public interface IToDoService:IBaseService<ToDo>
     {
-        //public Task<ToDo> InsertAsync(ToDo entity);
+        
     }
 }

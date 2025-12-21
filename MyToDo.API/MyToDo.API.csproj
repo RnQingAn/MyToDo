@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="6.0.7" />
     <PackageReference Include="SqlSugarCore" Version="5.1.4.210" />
   </ItemGroup>
 

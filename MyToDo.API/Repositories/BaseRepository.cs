@@ -7,7 +7,7 @@ namespace MyToDo.API.Repositories
 {
     public  class BaseRepository<T> : SimpleClient<T>, IBaseRepository<T> where T : class, new()
     {
-        protected readonly ISqlSugarClient _db;
+        protected  ISqlSugarClient _db;
 
         /// <summary>
         /// 构造函数 - 通过依赖注入获取 ISqlSugarClient

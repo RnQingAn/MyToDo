@@ -10,6 +10,13 @@
 
   <ItemGroup>
     <None Remove="Images\user.jpg" />
+    <None Remove="NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +28,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.8.1" />
+    <PackageReference Include="NLog" Version="6.0.7" />
     <PackageReference Include="Prism.DryIoc" Version="9.0.537" />
   </ItemGroup>
 

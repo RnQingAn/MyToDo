@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace MyToDo.API.Service
 {
-    public class ToDoService :BaseService<ToDo>,IToDoService
+    public class ToDoService : BaseService<ToDo>, IToDoService
     {
-        
-        public ToDoService(IBaseRepository<ToDo> iBaseRepository) :base(iBaseRepository) {
-        
-        }
-        
-        public async Task<ToDo> InsertAsync(ToDo entity)
+        private readonly IToDoRepository iToDoRepository;
+
+        public ToDoService(IToDoRepository iToDoRepository)
         {
-           return await iBaseRepository.InsertAsync(entity);
+            base.iBaseRepository = iToDoRepository;
+            this.iToDoRepository = iToDoRepository;
         }
+
+
+        
     }
 }

@@ -9,6 +9,6 @@ namespace MyToDo.API.Service
 {
     public  interface IBaseService<T>
     {
-        Task<T> InsertAsync(T createDto);
+         Task<T> InsertAsync(T createDto);
     }
 }
