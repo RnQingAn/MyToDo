@@ -8,14 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.0.7" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.4.210" />
+    <None Remove="SQLite\ToDo.db" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SQLite\ToDo.db">
+    <Content Include="SQLite\ToDo.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="6.0.7" />
+    <PackageReference Include="SqlSugar.IOC" Version="2.0.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.210" />
   </ItemGroup>
 
 </Project>

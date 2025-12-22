@@ -55,15 +55,18 @@ namespace MyToDo.ViewModels
             regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate(bar.NameSpace, back => { 
                 journal=back.Context.NavigationService.Journal;
             });
-
-            var y = await _toDoService.InsertAsync(new ToDo
+            ToDo toDo = new ToDo
             {
                 Title = "测试",
                 Content = "测试内容",
-                UpdateDate = "11",
+                UpdateDate = DateTime.Now.ToString(),
                 Status = 0,
                 CreateDate = DateTime.Now.ToString()
-            });
+            };
+            int x = 1;
+            //Logger.Info("添加数据成功");
+            //var result= await _toDoService.InsertAsync(toDo);
+            var result = await _toDoService.DeleteByIdAsync(x);
             Logger.Info("添加数据成功");
         }
 

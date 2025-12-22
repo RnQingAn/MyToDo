@@ -1,9 +1,10 @@
-﻿
-using Dm.util;
+﻿using Dm.util;
 using MyToDo.API.Entity;
+using NLog;
 using SqlSugar;
 
 using System.IO;
+
 
 
 namespace MyToDo.API.Content
@@ -11,6 +12,7 @@ namespace MyToDo.API.Content
     public static class DbContext
     {
         
+        private static readonly Logger logger=LogManager.GetCurrentClassLogger();
         private static readonly string _dbFileName = "ToDo.db";
 
         public static readonly string _dbPath = Path.Combine(
@@ -35,7 +37,7 @@ namespace MyToDo.API.Content
                     // 配置
                     db.Aop.OnLogExecuting = (sql, pars) =>
                     {
-                        Console.WriteLine($"SQL: {sql}");
+                        //Console.WriteLine($"SQL: {sql}");
                         //Console.WriteLine("参数: " + Newtonsoft.Json.JsonConvert.SerializeObject(pars));
                     };
                 });
@@ -46,24 +48,28 @@ namespace MyToDo.API.Content
         {
             try
             {
+                //// 确保数据库目录存在
+                //var dir = Path.GetDirectoryName(_dbPath);
+                //if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
                 // 检查表是否存在
                 var tableExists1 = Db.DbMaintenance.IsAnyTable(nameof(ToDo));
                 var tableExists2 = Db.DbMaintenance.IsAnyTable(nameof(Memo));
                 var tableExists3 = Db.DbMaintenance.IsAnyTable(nameof(User));
 
-                if (!tableExists1) Db.CodeFirst.InitTables(typeof(ToDo)); 
+                if (!tableExists1) Db.CodeFirst.InitTables(typeof(ToDo));
                 if (!tableExists2) Db.CodeFirst.InitTables(typeof(Memo));
                 if (!tableExists3) Db.CodeFirst.InitTables(typeof(User));
-                
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"创建数据库失败: {ex.Message}");
+                logger.Info($"创建数据库失败: {ex.Message}");
             }
         }
 
         // 提供一个属性让外部可以获取当前使用的数据库路径
         public static string DatabasePath => _dbPath;
-        
+
     }
 }

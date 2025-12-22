@@ -11,10 +11,10 @@ namespace MyToDo.API.Entity
     {
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public int Id { get; set; }
-        [SugarColumn(Length =30)]
+        [SugarColumn(ColumnDataType = "nvarchar(16)")]
         public string CreateDate { get; set; }
 
-        [SugarColumn(Length =30)]
+        [SugarColumn(ColumnDataType = "nvarchar(16)")]
         public string UpdateDate { get; set; }
     }
 }

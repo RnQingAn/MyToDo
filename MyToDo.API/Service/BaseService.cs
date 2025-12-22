@@ -3,21 +3,38 @@ using MyToDo.API.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyToDo.API.Service
 {
-    public class BaseService<T> : IBaseService<T> where T : class, new()
+    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, new()
     {
+        protected  IBaseRepository<TEntity> iBaseRepository;
 
-        protected  IBaseRepository<T> iBaseRepository;
+        public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression)
+            =>await iBaseRepository.DeleteAsync(whereExpression);
 
-        
+        public async Task<bool> DeleteByIdAsync(dynamic id)
+            => await iBaseRepository.DeleteByIdAsync(id);
 
-        public  async Task<T> InsertAsync(T createDto)
-        {
-            return await iBaseRepository.InsertAsync(createDto);
-        }
+        public async Task<bool> DeleteByIdsAsync(dynamic[] ids)
+            =>await iBaseRepository.DeleteByIdsAsync(ids);
+
+        public async Task<TEntity> GetByIdAsync(object id)
+            =>await iBaseRepository.GetByIdAsync(id);
+
+        public async Task<List<TEntity>> GetListAsync()
+            => await GetListAsync();
+
+        public async Task<bool> InsertAsync(TEntity entity)
+            => await iBaseRepository.InsertAsync(entity);
+
+        public async Task<bool> UpdateAsync(TEntity entity)
+            =>await iBaseRepository.UpdateAsync(entity);
+
+        public async Task<bool> UpdateSetColumnsTrueAsync(Expression<Func<TEntity, TEntity>> updateExpression, Expression<Func<TEntity, bool>> whereExpression)
+            =>await iBaseRepository.UpdateSetColumnsTrueAsync(updateExpression, whereExpression);
     }
 }

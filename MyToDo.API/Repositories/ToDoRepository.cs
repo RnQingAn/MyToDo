@@ -14,14 +14,10 @@ namespace MyToDo.API.Repositories
     {
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+
         // 构造函数：调用基类构造函数
-        public ToDoRepository(ISqlSugarClient db) : base(db)
-        {
-        }
-        public async Task<ToDo> InsertAsync(ToDo entity)
-        {
-            Logger.Info("Inserting a new ToDo entity into the database.");
-            return await _db.Insertable(entity).ExecuteReturnEntityAsync(); 
-        }
+        public ToDoRepository(ISqlSugarClient context) : base(context) {  }
+
     }
 }
