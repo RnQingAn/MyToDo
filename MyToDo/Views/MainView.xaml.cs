@@ -2,6 +2,7 @@
 using Dm.util;
 using MyToDo.API.Entity;
 using MyToDo.API.Service;
+using MyToDo.Extensions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,10 +17,16 @@ namespace MyToDo.Views
     public partial class MainView : Window
     {
         
-        public MainView()
+        public MainView(IEventAggregator eventAggregator )
         {
             InitializeComponent();
-
+            //注册等待消息窗口
+            eventAggregator.Register(arg =>
+            {
+                DialogHost.IsOpen=arg.IsOpen;
+                if (DialogHost.IsOpen)
+                    DialogHost.DialogContent = new ProgressView();
+            });
             BtnClickEvent();
 
             menuBar.SelectionChanged += (s, e) => {

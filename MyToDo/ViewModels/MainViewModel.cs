@@ -21,7 +21,7 @@ namespace MyToDo.ViewModels
         private readonly IToDoService _toDoService;
 
         private readonly IRegionManager regionManager;
-        private IRegionNavigationJournal journal;
+        private IRegionNavigationJournal? journal;
 
         public DelegateCommand<MenuBar> NavigateCommand { get;private set; }
         public DelegateCommand GoBackCommand { get; private set; }
@@ -61,12 +61,16 @@ namespace MyToDo.ViewModels
                 Content = "测试内容",
                 UpdateDate = DateTime.Now.ToString(),
                 Status = 0,
+
+
+
+
                 CreateDate = DateTime.Now.ToString()
             };
-            int x = 1;
+            
             //Logger.Info("添加数据成功");
             //var result= await _toDoService.InsertAsync(toDo);
-            var result = await _toDoService.DeleteByIdAsync(x);
+            var result = await _toDoService.GetByIdAsync(1);
             Logger.Info("添加数据成功");
         }
 

@@ -1,4 +1,5 @@
 ﻿using MyToDo.API.Entity;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,15 @@ namespace MyToDo.API.Service
         /// </summary>
         public Task<bool> DeleteByIdsAsync(dynamic[] ids);
 
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total);
         #endregion
     }
 }

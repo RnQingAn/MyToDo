@@ -9,6 +9,8 @@ namespace MyToDo.API.Service
 {
     public interface IToDoService:IBaseService<ToDo>
     {
-        
+        Task<bool> ByIdUpdateAsync(int id);
+
+        Task<bool> ByIdQueryAsync(int id);
     }
 }

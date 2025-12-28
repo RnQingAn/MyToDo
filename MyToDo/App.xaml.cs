@@ -1,13 +1,17 @@
 ﻿
 
+using AutoMapper;
 using MyToDo.API.Content;
 using MyToDo.API.Repositories;
 using MyToDo.API.Service;
+using MyToDo.AutoMapper;
 using MyToDo.ViewModels;
 using MyToDo.Views;
 using NLog;
 using Prism.Ioc;
 using SqlSugar;
+using System.Net.Http;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -27,6 +31,31 @@ namespace MyToDo
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            //"当需要构建HttpClient时" → "需要名字为webUri的字符串"
+            //containerRegistry.GetContainer().Register<HttpClient>(made: Parameters.Of.Type<string>(serviceKey:"webUri"));
+            //containerRegistry.GetContainer().RegisterInstance<string>(@"https://localhost:7232/",serviceKey:"webUri");
+
+            // 注册AutoMapper
+            // 注册 AutoMapper 配置
+            var config = new MapperConfiguration(cfg =>
+            {
+                // 扫描当前程序集
+                //cfg.AddMaps(Assembly.GetExecutingAssembly());
+                cfg.AddProfile<CustomAutoMapperProfile>();
+            });
+
+            // 验证配置（建议在开发环境使用）
+
+            config.AssertConfigurationIsValid();
+
+
+            // 创建 Mapper 实例
+            var mapper = config.CreateMapper();
+
+            // 注册到容器
+            containerRegistry.RegisterInstance<IMapper>(mapper);
+            containerRegistry.RegisterInstance<IConfigurationProvider>(config);
+
             //初始化数据库表
             DbContext.CreateIniDatabase();
             // 方式1：注册 ISqlSugarClient 为单例（推荐）
@@ -51,11 +80,6 @@ namespace MyToDo
             containerRegistry.Register(typeof(IBaseService<>), typeof(BaseService<>));
             containerRegistry.Register<IToDoService, ToDoService>();
         }
-       
-
-       
-
-        
     }
 
 }

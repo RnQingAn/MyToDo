@@ -32,7 +32,9 @@
 
         </ResourceDictionary>
     </Window.Resources>
-    <materialDesign:DialogHost DialogTheme="Inherit" Identifier="RootDialog" >
+    <materialDesign:DialogHost 
+        DialogTheme="Inherit"  x:Name="DialogHost"
+        Identifier="RootDialog" >
         <materialDesign:DrawerHost x:Name="drawrHost" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="220">

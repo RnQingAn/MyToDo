@@ -27,7 +27,22 @@ namespace MyToDo.API.Repositories
         /// </summary>
         public Task<TEntity> GetByIdAsync(object id);
 
-        
+
+        /// <summary>
+        /// 自定义查询
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func);
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total);
         /// <summary>
         /// 异步批量插入
         /// </summary>
@@ -42,9 +57,9 @@ namespace MyToDo.API.Repositories
         /// <summary>
         /// 异步根据条件更新
         /// </summary>
-        public Task<bool> UpdateSetColumnsTrueAsync(Expression<Func<TEntity, TEntity>> updateExpression,Expression<Func<TEntity, bool>> whereExpression);
-
+        //public Task<bool> UpdateSetColumnsTrueAsync(Expression<Func<TEntity, TEntity>> updateExpression,Expression<Func<TEntity, bool>> whereExpression);
         
+
 
         /// <summary>
         /// 异步根据条件删除

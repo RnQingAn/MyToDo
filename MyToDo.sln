@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo", "MyToDo\MyToDo.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo.API", "MyToDo.API\MyToDo.API.csproj", "{BCF711CD-2B40-40EF-AA5C-73C6633306CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo.API.UnitTest", "MyToDo.API.UnitTest\MyToDo.API.UnitTest.csproj", "{6847CCBB-ABD8-41CC-BAC5-7D0804C61282}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCF711CD-2B40-40EF-AA5C-73C6633306CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6847CCBB-ABD8-41CC-BAC5-7D0804C61282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6847CCBB-ABD8-41CC-BAC5-7D0804C61282}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6847CCBB-ABD8-41CC-BAC5-7D0804C61282}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6847CCBB-ABD8-41CC-BAC5-7D0804C61282}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
