@@ -11,11 +11,11 @@ namespace MyToDo.ViewModels
     public class NavigationViewModel :BindableBase,INavigationAware
     {
         private readonly IContainerProvider containerProvider;
-        public readonly IEventAggregator eventAggregator;
+        public readonly IEventAggregator _eventAggregator;
         public  NavigationViewModel(IContainerProvider containerProvider)
         {
             this.containerProvider = containerProvider;
-            eventAggregator= containerProvider.Resolve<IEventAggregator>();
+            _eventAggregator = containerProvider.Resolve<IEventAggregator>();
         }
         public  bool IsNavigationTarget(NavigationContext navigationContext)
             => true;
@@ -31,7 +31,7 @@ namespace MyToDo.ViewModels
         }
         public void UpdateLodingg(bool isOpen)
         {
-            eventAggregator.UpdateLoading(new UpdateModel { IsOpen = isOpen });
+            _eventAggregator.UpdateLoading(new UpdateModel { IsOpen = isOpen });
         }
     }
 }

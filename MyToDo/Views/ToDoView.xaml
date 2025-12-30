@@ -5,9 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyToDo.Views"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ext="clr-namespace:MyToDo.Extensions"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:cv="clr-namespace:MyToDo.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <cv:IntToStringConverter x:Key="IntToStringConverter"/>
+        <cv:IntToVisibilityConveter x:Key="IntToVisibilityConveter" />
+    </UserControl.Resources>
     <md:DialogHost>
         <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
             <md:DrawerHost.RightDrawerContent>
@@ -16,35 +23,63 @@
                                DockPanel.Dock="Top" Padding="20,10"/>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="20">
                         <TextBlock Text="状态：" VerticalAlignment="Center"/>
-                        <ComboBox SelectedIndex="0">
+                        <ComboBox SelectedIndex="{Binding CurrentDto.Status, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ComboBoxItem>待办</ComboBoxItem>
                             <ComboBoxItem>已完成</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                    <TextBox Margin="20,0" md:HintAssist.Hint="请输入待办概要" DockPanel.Dock="Top"/>
-                    <TextBox Margin="20" MinHeight="100" md:HintAssist.Hint="请输入待办内容" DockPanel.Dock="Top"/>
-                    <Button  Margin="20,0" Content="添加到待办" DockPanel.Dock="Top" />
+                    <TextBox Margin="20,0"   Foreground="White"
+                             Text="{Binding CurrentDto.Title}"
+                             md:HintAssist.Hint="请输入待办概要" 
+                             DockPanel.Dock="Top"/>
+                    <TextBox Margin="20" MinHeight="100"  Foreground="White"
+                             Text="{Binding CurrentDto.Content}"
+                             md:HintAssist.Hint="请输入待办内容" DockPanel.Dock="Top"/> 
+                    <Button  Margin="20,0"  CommandParameter="Save" Command="{Binding ExecuteCommand}"
+                             Content="添加到待办" DockPanel.Dock="Top" />
                 </DockPanel>
             </md:DrawerHost.RightDrawerContent>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
+                    <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
                 <StackPanel Margin="15,0,0,0" Orientation="Horizontal" >
-                    <TextBox Width="250" md:HintAssist.Hint="查找待办事项.." VerticalAlignment="Center" 
-                                md:TextFieldAssist.HasClearButton="True"/>
-                    <TextBlock Text="筛选：" Margin="10,0" VerticalAlignment="Center"/>
-                    <ComboBox SelectedIndex="0">
+                    <TextBox Width="250" Text="{Binding Search, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                             md:HintAssist.Hint="查找待办事项.."  Foreground="White"
+                             VerticalAlignment="Center" 
+                             md:TextFieldAssist.HasClearButton="True">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" 
+                                        Command="{Binding ExecuteCommand}"
+                                        CommandParameter="Search"
+                                        />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <TextBlock Text="筛选：" Margin="10,0" VerticalAlignment="Center">
+                        <TextBlock.TextEffects>
+                            <TextEffect PositionStart="0" PositionCount="2">
+                                <TextEffect.Transform>
+                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                </TextEffect.Transform>
+                            </TextEffect>
+                        </TextBlock.TextEffects>
+                    </TextBlock>
+                    <ComboBox SelectedIndex="{Binding SelectedIndex}">
                         <ComboBoxItem>全部</ComboBoxItem>
                         <ComboBoxItem>代办</ComboBoxItem>
                         <ComboBoxItem>已完成</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
 
-                <Button  HorizontalAlignment="Right"  Command="{Binding AddCommand}"
+                <Button  HorizontalAlignment="Right" CommandParameter="Add"  Command="{Binding ExecuteCommand}"
                          Content="+添加待办" Margin="10,5"/>
-
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding ToDoDtos.Count,Converter={StaticResource IntToVisibilityConveter}}">
+                    <TextBlock Margin="0,10" FontSize="30"  Foreground="White"
+                               HorizontalAlignment="Center"
+                        Text="尝试添加一些代办事项，以便在此处查看他们。"/>
+                </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                     <ItemsControl  ItemsSource="{Binding ToDoDtos}" HorizontalAlignment="Center">
                         <ItemsControl.ItemsPanel>
@@ -57,35 +92,66 @@
                             <DataTemplate>
                                 <md:TransitioningContent OpeningEffect="{md:TransitionEffect Kind=ExpandIn}" >
                                     <Grid Width="220" MaxHeight="250" MinHeight="180" Margin="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
-                                        <Button Content="删除"/>
-                                    </md:PopupBox>
-                                    <Border CornerRadius="3" Grid.RowSpan="2" Background="Green"/>
-                                    <TextBlock Margin="10,5" FontWeight="Bold" Text="{Binding Title}"  />
-                                    <TextBlock Margin="10,5" Text="{Binding Content}" Grid.Row="1" />
-                                    <Canvas Grid.RowSpan="2" ClipToBounds="True">
-                                        <Border Canvas.Top="10" Canvas.Right="-50" 
-                            Width="120" Height="120"
-                            Background="#FFFFFF"
-                            CornerRadius="100"
-                            Opacity="0.1" />
-                                        <Border Canvas.Top="80" Canvas.Right="-30" 
-                             Width="120" Height="120"
-                             Background="#FFFFFF"
-                             CornerRadius="100"
-                             Opacity="0.1" />
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                <i:InvokeCommandAction 
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
+                                            <Button Content="删除"
+                                                     CommandParameter="{Binding}"
+                                                     Command="{Binding DataContext.DeleteCommand, 
+                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+                                                    />
+                                        </md:PopupBox>
+                                        <Border CornerRadius="3" Grid.RowSpan="2"  >
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers >
 
-                                    </Canvas>
-                                </Grid>
+                                                        <DataTrigger Binding="{Binding Status}"  Value="0">
+                                                            
+                                                            <Setter Property="Background" Value="#3CB371"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="1">
+                                                            <Setter Property="Background" Value="#1F90EE"/>
+                                                        </DataTrigger>
+                                                       
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        
+                                        <TextBlock Margin="10,5" FontWeight="Bold" Text="{Binding Title}"  />
+                                        <TextBlock Margin="10,5" Text="{Binding Content}" Grid.Row="1" />
+                                        <Canvas Grid.RowSpan="2" ClipToBounds="True">
+                                            <Border Canvas.Top="10" Canvas.Right="-50" 
+                                                    Width="120" Height="120"
+                                                    Background="#FFFFFF"
+                                                    CornerRadius="100"
+                                                    Opacity="0.1" />
+                                            <Border Canvas.Top="80" Canvas.Right="-30" 
+                                                     Width="120" Height="120"
+                                                     Background="#FFFFFF"
+                                                     CornerRadius="100"
+                                                     Opacity="0.1" />
+
+                                        </Canvas>
+                                    </Grid>
                                 </md:TransitioningContent>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
+
+                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static ext:PrismManager.ToDoPageViewRegionName}"/>
+
                 
             </Grid>
         </md:DrawerHost>

@@ -40,7 +40,7 @@ namespace MyToDo.ViewModels
         void CreateMenuBar()
         {
             MenuBars.Add(new MenuBar { Icon = "Palette", NameSpace = "SkinView", Title = "个性化" });
-            MenuBars.Add(new MenuBar { Icon = "Cog", NameSpace = "", Title = "系统设置" });
+            MenuBars.Add(new MenuBar { Icon = "Cog", NameSpace = "SkinView", Title = "系统设置" });
             MenuBars.Add(new MenuBar { Icon = "Information", NameSpace = "AboutView", Title = "关于更多" });
         }
     }

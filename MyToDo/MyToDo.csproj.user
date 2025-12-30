@@ -19,6 +19,9 @@
     <Compile Update="Views\MemoView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\PageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\ProgressView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

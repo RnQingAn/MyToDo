@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel Width="100">
-            <ProgressBar Width="40" Height="40"  Margin="20"
-                         IsIndeterminate="True" 
+        <StackPanel Width="100" Height="80">
+            <ProgressBar Width="60" Height="60"  Margin="10"
+                         IsIndeterminate="True"  VerticalAlignment="Center" HorizontalAlignment="Center"
                          Style="{StaticResource MaterialDesignCircularProgressBar}" 
             Value="{Binding ProgressValue}" />
         </StackPanel>  

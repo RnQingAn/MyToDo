@@ -20,19 +20,25 @@ namespace MyToDo.Common.Models
 		public string Title
 		{
 			get { return title; }
-			set { title = value; }
+			set { title = value;
+                RaisePropertyChanged();
+            }
 		}
 
 		public string Content
 		{
 			get { return content; }
-			set { content = value; }
+			set { content = value;
+                RaisePropertyChanged();
+            }
 		}
 
 		public int Status
         {
 			get { return status; }
-			set { status = value; }
+			set { status = value;
+                RaisePropertyChanged();
+            }
 		}
 
 	}

@@ -12,7 +12,17 @@
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!-- 核心设置：强制设置所有文本元素的默认前景色为白色 -->
+            <Style TargetType="TextElement">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
 
+            <!-- 针对特定控件类型的补充设置，确保全覆盖 -->
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White"/>
+                <!-- 可以在此统一设置其他默认属性，如字体 -->
+                <!-- <Setter Property="FontFamily" Value="Microsoft YaHei UI"/> -->
+            </Style>
             <Style TargetType="ListBoxItem" x:Key="MyListBoxItemStyle">
                 <Setter Property="MinHeight" Value="40"/>
                 <Setter Property="Template">

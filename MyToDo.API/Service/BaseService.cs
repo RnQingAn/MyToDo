@@ -35,13 +35,20 @@ namespace MyToDo.API.Service
             =>await iBaseRepository.GetByIdAsync(id);
 
         public async Task<List<TEntity>> GetListAsync()
-            => await GetListAsync();
+            => await iBaseRepository.GetListAsync();
 
         public virtual async Task<bool> InsertAsync(TEntity entity)
             =>await iBaseRepository.InsertAsync(entity);
 
+        public async Task<TEntity> InsertReturnEntityAsync(TEntity entity)
+            =>await iBaseRepository.InsertReturnEntityAsync(entity);
+
         public async Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total)
             =>await iBaseRepository.QueryAsync(page, size, total);
+
+        public virtual Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func, int page, int size, RefAsync<int> total)
+            => iBaseRepository.QueryAsync(func, page, size, total);
+
         public virtual async Task<bool> UpdateAsync(TEntity entity)
             =>await iBaseRepository.UpdateAsync(entity);
 

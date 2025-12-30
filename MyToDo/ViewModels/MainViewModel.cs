@@ -4,6 +4,7 @@ using MyToDo.API.Entity;
 using MyToDo.API.Service;
 using MyToDo.Common.Models;
 using MyToDo.Extensions;
+using MyToDo.Views;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,9 @@ namespace MyToDo.ViewModels
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IToDoService _toDoService;
-
-        private readonly IRegionManager regionManager;
-        private IRegionNavigationJournal? journal;
+        private readonly IMemoService _memoService;
+        private readonly IRegionManager _regionManager;
+        private IRegionNavigationJournal? _journal;
 
         public DelegateCommand<MenuBar> NavigateCommand { get;private set; }
         public DelegateCommand GoBackCommand { get; private set; }
@@ -30,21 +31,21 @@ namespace MyToDo.ViewModels
 
         
         //ctor 构造函数 
-        public MainViewModel(IRegionManager regionManager, IToDoService toDoService)
+        public MainViewModel(IRegionManager regionManager, IToDoService toDoService,IMemoService memoService)
         {
             CreateMenuBar();
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
-            this.regionManager = regionManager;
-
+            this._regionManager = regionManager;
+            _toDoService = toDoService;
+            this._memoService = memoService;
             GoBackCommand = new DelegateCommand(() => {
-                if (journal is not null || journal.CanGoBack)
-                    journal.GoBack();
+                if (_journal is not null || _journal.CanGoBack)
+                    _journal.GoBack();
             });
             GoForwardCommand = new DelegateCommand(() => {
-                if (journal is not null || journal.CanGoForward)
-                    journal.GoForward();
+                if (_journal is not null || _journal.CanGoForward)
+                    _journal.GoForward();
             });
-            _toDoService= toDoService;
             
         }
 
@@ -52,26 +53,10 @@ namespace MyToDo.ViewModels
         {
             if (bar is null || string.IsNullOrWhiteSpace(bar.NameSpace)) return;
 
-            regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate(bar.NameSpace, back => { 
-                journal=back.Context.NavigationService.Journal;
+            _regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate(bar.NameSpace, back => {
+                _journal = back.Context.NavigationService.Journal;
             });
-            ToDo toDo = new ToDo
-            {
-                Title = "测试",
-                Content = "测试内容",
-                UpdateDate = DateTime.Now.ToString(),
-                Status = 0,
-
-
-
-
-                CreateDate = DateTime.Now.ToString()
-            };
-            
-            //Logger.Info("添加数据成功");
-            //var result= await _toDoService.InsertAsync(toDo);
-            var result = await _toDoService.GetByIdAsync(1);
-            Logger.Info("添加数据成功");
+           
         }
 
         private  ObservableCollection<MenuBar> _menuBars = new ();
@@ -85,11 +70,14 @@ namespace MyToDo.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        
         void CreateMenuBar() {
             MenuBars.Add(new MenuBar { Icon = "Home", NameSpace = "IndexView", Title = "首页" });
             MenuBars.Add(new MenuBar { Icon = "NotebookOutline", NameSpace = "ToDoView", Title = "代办事项" });
             MenuBars.Add(new MenuBar { Icon = "NotebookPlusOutline", NameSpace = "MemoView", Title = "备忘录" });
             MenuBars.Add(new MenuBar { Icon = "CogOutline", NameSpace = "SettingsView", Title = "设置" });
+
         }
 
     }

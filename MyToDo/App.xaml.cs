@@ -72,13 +72,15 @@ namespace MyToDo
 
             containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
             containerRegistry.RegisterForNavigation<AboutView>();
+            containerRegistry.RegisterForNavigation<PageView,PageViewModel>();
 
-            
             containerRegistry.Register(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             containerRegistry.Register<IToDoRepository, ToDoRepository>();
+            containerRegistry.Register<IMemoRepository, MemoRepository>();
 
             containerRegistry.Register(typeof(IBaseService<>), typeof(BaseService<>));
             containerRegistry.Register<IToDoService, ToDoService>();
+            containerRegistry.Register<IMemoService, MemoService>();
         }
     }
 

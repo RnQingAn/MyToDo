@@ -19,5 +19,8 @@ namespace MyToDo.API.Repositories
 
         public Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total)
             => base.Context.Queryable<TEntity>().ToPageListAsync(page,size,total);
+
+        public Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func, int page, int size, RefAsync<int> total)
+            => base.Context.Queryable<TEntity>().Where(func).ToPageListAsync(page, size, total);
     }
 }

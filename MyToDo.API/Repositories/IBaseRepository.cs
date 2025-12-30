@@ -15,6 +15,8 @@ namespace MyToDo.API.Repositories
         //</summary>
         public Task<bool> InsertAsync(TEntity entity);
 
+        Task<TEntity> InsertReturnEntityAsync(TEntity entity);
+
         #region 基础CRUD操作
 
         /// <summary>
@@ -34,6 +36,15 @@ namespace MyToDo.API.Repositories
         /// <param name="func"></param>
         /// <returns></returns>
         Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func);
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func,int page, int size, RefAsync<int> total);
 
         /// <summary>
         /// 分页查询

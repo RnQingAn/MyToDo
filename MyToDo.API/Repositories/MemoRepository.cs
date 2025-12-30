@@ -10,6 +10,6 @@ namespace MyToDo.API.Repositories
 {
     public class MemoRepository : BaseRepository<Memo>, IMemoRepository
     {
-        public MemoRepository(ISqlSugarClient db) : base(db) { }
+        public MemoRepository(ISqlSugarClient context) : base(context) { }
     }
 }

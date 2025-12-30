@@ -18,6 +18,8 @@ namespace MyToDo.API.Service
         //</summary>
         public Task<bool> InsertAsync(TEntity entity);
 
+        Task<TEntity> InsertReturnEntityAsync(TEntity entity);
+
         /// <summary>
         /// 异步获取所有数据
         /// </summary>
@@ -70,6 +72,16 @@ namespace MyToDo.API.Service
         /// <param name="total"></param>
         /// <returns></returns>
         Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total);
+
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func, int page, int size, RefAsync<int> total);
         #endregion
     }
 }

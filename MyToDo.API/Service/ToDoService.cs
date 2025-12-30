@@ -1,9 +1,12 @@
-﻿using MyToDo.API.Entity;
+﻿using Microsoft.IdentityModel.Tokens;
+using MyToDo.API.Entity;
 using MyToDo.API.Repositories;
+using MyToDo.Parameters;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +51,21 @@ namespace MyToDo.API.Service
                 return await base.UpdateAsync(entity);
             else
                 return false;
+        }
+
+        public async Task<PageResult<ToDo>> QueryByConditionAsync(ToDoParameter toDoParameter)
+        {
+            var result = await iToDoRepository.QueryAsync(
+                t => (string.IsNullOrEmpty(toDoParameter.Search) ? true : t.Title.Contains(toDoParameter.Search))
+                && (toDoParameter.Status == 3 ? true : t.Status == toDoParameter.Status),
+                toDoParameter.PageIndex, toDoParameter.PageSize, toDoParameter.PageTotal);
+            return new PageResult<ToDo>
+            {
+                Data = result,
+                Page = toDoParameter.PageIndex,
+                PageSize = toDoParameter.PageSize,
+                TotalCount = toDoParameter.PageTotal
+            };
         }
     }
 }

@@ -17,5 +17,15 @@ namespace MyToDo.Extensions
         /// 设置页区域
         /// </summary>
         public static readonly string SettingsViewRegionName = "SettingsViewRegion";
+
+
+        /// <summary>
+        /// 设置ToD0分页区域
+        /// </summary>
+        public static readonly string ToDoPageViewRegionName = "ToDoPageViewRegionName";
+        /// <summary>
+        /// 设置Memo分页区域
+        /// </summary>
+        public static readonly string MemoPageViewRegionName = "MemoPageViewRegionName";
     }
 }

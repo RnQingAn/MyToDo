@@ -10,6 +10,9 @@ namespace MyToDo.AutoMapper
         public CustomAutoMapperProfile()
         {
             CreateMap<ToDo, ToDoDto>();
+            CreateMap<ToDoDto, ToDo>();
+            CreateMap<Memo,MemoDto>();
+            CreateMap<MemoDto,Memo>();
         }
     }
 }

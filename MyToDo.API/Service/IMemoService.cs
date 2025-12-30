@@ -1,6 +1,5 @@
 ﻿using MyToDo.API.Entity;
 using MyToDo.Parameters;
-using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace MyToDo.API.Service
 {
-    public interface IToDoService:IBaseService<ToDo>
+    public interface IMemoService: IBaseService<Memo>
     {
-        Task<bool> ByIdUpdateAsync(int id);
-
-        Task<bool> ByIdQueryAsync(int id);
+        
 
         // 新增方法：传入参数而不是表达式
-        Task<PageResult<ToDo>> QueryByConditionAsync(ToDoParameter toDoParameter);
+        Task<PageResult<Memo>> QueryByConditionAsync(QueryParameter parameter);
     }
 }
