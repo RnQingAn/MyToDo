@@ -17,7 +17,8 @@ namespace MyToDo.Parameters
 
         public string? Search { get; set; }
 
-
+        // 控件的Area属性，用于标识它属于哪个区域
+        public string Area { get; set; }
 
     }
 }

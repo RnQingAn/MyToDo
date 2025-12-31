@@ -64,14 +64,13 @@ namespace MyToDo.ViewModels
             DeleteCommand = new DelegateCommand<MemoDto>(Delete);
             //InitToDoDtos();
 
-            // 订阅页码变更事件
-            _eventAggregator.GetEvent<PageIndexChangedEvent>()
-                .Subscribe(OnPageIndexChanged);
+            
         }
 
-        private async void OnPageIndexChanged(int obj)
+        private async void OnPageIndexChanged(PaginationData data)
         {
-            Parameter.PageIndex = obj;
+            //if (data.Areas != nameof(MemoViewModel)) return;
+            Parameter.PageIndex = data.PageIndex;
             await InitMemoDtos(Parameter);
         }
 
@@ -100,7 +99,7 @@ namespace MyToDo.ViewModels
                 {
                     //ToDoDtos.Remove(todo);
                     if ((Parameter.PageTotal - 1) % Parameter.PageSize == 0)
-                        Parameter.PageIndex = Math.Max(1, Parameter.PageIndex - 1);
+                        Parameter.PageIndex -=1;
                     else
                         Parameter.PageIndex = PageData.TotalPages;
                     await InitMemoDtos(Parameter);
@@ -235,7 +234,7 @@ namespace MyToDo.ViewModels
             {
                 PageIndex = PageData.Page,
                 PageSize = PageData.PageSize,
-                TotalCount = PageData.TotalCount
+                TotalCount = PageData.TotalCount,
             });
 
             UpdateLodingg(false);
@@ -284,7 +283,12 @@ namespace MyToDo.ViewModels
         public override async void OnNavigatedTo(NavigationContext navigationContext)
         {
             await InitMemoDtos(Parameter);
+            // 订阅页码变更事件
+            _eventAggregator.GetEvent<PageIndexChangedEvent>().Subscribe(OnPageIndexChanged, ThreadOption.UIThread);
         }
-
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            _eventAggregator.GetEvent<PageIndexChangedEvent>().Unsubscribe(OnPageIndexChanged);
+        }
     }
 }

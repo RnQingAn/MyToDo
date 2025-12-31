@@ -7,8 +7,13 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             xmlns:ct="clr-namespace:MyToDo.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ext="clr-namespace:MyToDo.Extensions"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ct:IntToVisibilityConveter x:Key="IntToVisibilityConveter" />
+    </UserControl.Resources>
     <md:DialogHost>
         <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
             <md:DrawerHost.RightDrawerContent>
@@ -26,10 +31,12 @@
                     </StackPanel>-->
                     <TextBox Margin="20,0" 
                              Text="{Binding CurrentDto.Title}"
+                             Foreground="White"
                              md:HintAssist.Hint="请输入备忘录概要" 
                              DockPanel.Dock="Top" />
                     <TextBox Margin="20" 
                              Text="{Binding CurrentDto.Content}"
+                             Foreground="White"
                              MinHeight="100" 
                              md:HintAssist.Hint="请输入备忘录内容" 
                              DockPanel.Dock="Top"/>
@@ -44,8 +51,12 @@
                     <RowDefinition Height="70"/>
                 </Grid.RowDefinitions>
                 <StackPanel Margin="15,0,0,0" Orientation="Horizontal" >
-                    <TextBox Width="250" md:HintAssist.Hint="查找备忘录.." VerticalAlignment="Center" 
-                            md:TextFieldAssist.HasClearButton="True">
+                    <TextBox Width="250" 
+                             Foreground="White"
+                             md:HintAssist.Hint="查找备忘录.." 
+                             VerticalAlignment="Center" 
+                             md:TextFieldAssist.HasClearButton="True" 
+                             Text="{Binding Search}">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter" Command="{Binding ExecuteCommand}" CommandParameter="Search"/>
                         </TextBox.InputBindings>
@@ -56,7 +67,14 @@
                 <Button  HorizontalAlignment="Right"  Command="{Binding ExecuteCommand}"
                          CommandParameter="Add"
                      Content="+添加备忘录" Margin="10,5"/>
-
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" 
+                            Visibility="{Binding MemoDtos.Count,Converter={StaticResource IntToVisibilityConveter}}">
+                    <TextBlock Margin="0,10" 
+                               FontSize="30"  
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               Text="尝试添加一些代办事项，以便在此处查看他们。"/>
+                </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
 
                     <ItemsControl  ItemsSource="{Binding MemoDtos}" HorizontalAlignment="Center">
@@ -70,14 +88,23 @@
                             <DataTemplate>
                                 <md:TransitioningContent OpeningEffect="{md:TransitionEffect Kind=ExpandIn}" >
                                     <Grid Width="220" MaxHeight="250" MinHeight="180" Margin="8">
-                                    <Grid.RowDefinitions>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                <i:InvokeCommandAction 
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
-                                        <Button Content="删除"/>
+                                            <Button Content="删除" 
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"/>
                                     </md:PopupBox>
-                                    <Border CornerRadius="3" Grid.RowSpan="2" Background="Green"/>
+                                        <Border CornerRadius="3" Grid.RowSpan="2" Background="#1F90EE"/>
                                     <TextBlock Margin="10,5" FontWeight="Bold" Text="{Binding Title}"  />
                                     <TextBlock Margin="10,5" Text="{Binding Content}" Grid.Row="1" />
                                     <Canvas Grid.RowSpan="2" ClipToBounds="True">

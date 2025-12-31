@@ -3,6 +3,7 @@ using MyToDo.Common.Models;
 using NetTaste;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,12 @@ namespace MyToDo.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
-
+        
         public DelegateCommand<string> GoPageCommand { get; private set; }
-
+        public PaginationData Pagination { get; private set; }
         public PageViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
+            
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
             GoPageCommand = new DelegateCommand<string>(GoPage);
@@ -44,7 +46,8 @@ namespace MyToDo.ViewModels
                         CurrentPage = result;
                     break;
             }
-            _eventAggregator.GetEvent<PageIndexChangedEvent>().Publish(CurrentPage);
+            Pagination.PageIndex = CurrentPage;
+            _eventAggregator.GetEvent<PageIndexChangedEvent>().Publish(Pagination);
 
         }
         private string _goPageIndex = "";
@@ -84,17 +87,7 @@ namespace MyToDo.ViewModels
             }
         }
 
-        private PaginationData pagination;
-
-        public PaginationData Pagination
-        {
-            get { return pagination; }
-            set
-            {
-                pagination = value;
-                RaisePropertyChanged();
-            }
-        }
+      
         private int _currentPage = 0;
 
         public int CurrentPage
@@ -123,14 +116,14 @@ namespace MyToDo.ViewModels
         {
             Pagination = data;
             Pagination.PageIndex = Pagination.TotalPages == 0 ? 0 : Pagination.PageIndex;
-            UpdateCurrentPage(pagination);
+            UpdateCurrentPage(Pagination);
         }
 
         private void UpdateCurrentPage(PaginationData pageIndex)
         {
             CurrentPage = pageIndex.PageIndex;
             TotalPage = pageIndex.TotalPages;
-            HasNextPage = pagination.TotalPages > 1 && CurrentPage != pagination.TotalPages;
+            HasNextPage = Pagination.TotalPages > 1 && CurrentPage != Pagination.TotalPages;
             HasPreviousPage = CurrentPage != 1 && CurrentPage != 0;
         }
 
